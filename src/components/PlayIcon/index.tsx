@@ -9,6 +9,7 @@ const PlayIcon: React.FC = ({ ...props }) => {
       height={40}
       style={{
         background: 'new 0 0 485 485',
+        fill: 'inherit',
       }}
       xmlSpace="preserve"
       {...props}

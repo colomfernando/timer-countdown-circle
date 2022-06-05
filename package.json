@@ -11,6 +11,7 @@
     "@types/react-dom": "^17.0.5",
     "browser-localstorage-expire": "^1.6.0",
     "react": "^17.0.2",
+    "react-circular-progressbar": "^2.0.4",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
     "react-scripts": "^5.0.0",
@@ -21,6 +22,8 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^16.3.0",
+    "@commitlint/config-conventional": "^16.2.4",
     "@types/react-redux": "^7.1.16",
     "@types/redux": "^3.6.0",
     "@types/redux-thunk": "^2.1.0",
@@ -37,10 +40,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "prettier": "^2.2.1",
-    "@commitlint/cli": "^16.3.0",
-    "@commitlint/config-conventional": "^16.2.4",
     "husky": "^8.0.1",
+    "prettier": "^2.2.1",
     "standard-version": "^9.3.2"
   },
   "scripts": {

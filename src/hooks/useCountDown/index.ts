@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   calculateInitialTime,
   calculateRemainingMinutes,
@@ -12,24 +12,25 @@ export interface PropsUseCountDown {
 
 export interface ResponseUseCountDown extends PropsUseCountDown {
   remainingTime: number;
-  start: () => void | undefined;
-  clear: () => void | undefined;
+  start: () => void;
+  pause: () => void;
 }
+type Interval = ReturnType<typeof setInterval>;
 
 const useCountDown = ({
   minutes,
   seconds,
 }: PropsUseCountDown): ResponseUseCountDown => {
-  let timer: ReturnType<typeof setInterval>;
-
   const [remainingTime, setRemainingTime] = useState(
     calculateInitialTime(minutes, seconds)
   );
 
-  const countDown = () => {
+  const [isActive, setIsActive] = useState(false);
+
+  const countDown = (interval: Interval) => {
     setRemainingTime((time) => {
       if (time - 1000 < 0) {
-        clearInterval(timer);
+        clearInterval(interval);
         return 0;
       }
 
@@ -37,16 +38,21 @@ const useCountDown = ({
     });
   };
 
-  const interval = () => {
-    timer = setInterval(countDown, 1000);
-  };
+  useEffect(() => {
+    let timer: Interval;
+    if (isActive) {
+      timer = setInterval(() => countDown(timer), 1000);
+    }
+
+    return () => clearInterval(timer);
+  }, [isActive]);
 
   return {
     remainingTime,
     minutes: calculateRemainingMinutes(remainingTime),
     seconds: calculateRemainingSeconds(remainingTime),
-    start: interval,
-    clear: () => clearInterval(timer),
+    start: () => setIsActive(true),
+    pause: () => setIsActive(false),
   };
 };
 

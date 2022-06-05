@@ -1,14 +1,31 @@
 import React from 'react';
 import Styles from './styles';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import palette from 'theme/palette';
 
-const Circle: React.FC = () => {
+export interface PropsCircle {
+  text: string;
+  percentage: number;
+}
+
+const Circle: React.FC<PropsCircle> = ({ text, percentage }) => {
+  const textColor = percentage < 20 ? palette.red : palette.green;
+  const pathColor = percentage < 20 ? palette.red : palette.green;
+
   return (
     <Styles.Wrapper>
-      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <Styles.Group>
-          <Styles.Circle cx="50" cy="50" r="45" />
-        </Styles.Group>
-      </svg>
+      <CircularProgressbar
+        strokeWidth={5}
+        value={percentage}
+        text={text}
+        counterClockwise
+        styles={buildStyles({
+          textColor,
+          pathColor,
+          pathTransitionDuration: 1,
+        })}
+      />
     </Styles.Wrapper>
   );
 };
