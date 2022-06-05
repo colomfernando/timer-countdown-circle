@@ -5,14 +5,16 @@ import useCountDown from 'hooks/useCountDown';
 import Button from 'components/Button';
 import PlayIcon from 'components/PlayIcon';
 import PauseIcon from 'components/PauseIcon';
+import RestartIcon from 'components/RestartIcon';
 
 const Counter: React.FC = () => {
   const totalMinutes = 1;
 
-  const { minutes, seconds, start, pause, remainingTime } = useCountDown({
-    minutes: totalMinutes,
-    seconds: 0,
-  });
+  const { minutes, seconds, start, pause, restart, remainingTime } =
+    useCountDown({
+      minutes: totalMinutes,
+      seconds: 0,
+    });
 
   const [percentage, setPercentage] = useState(100);
 
@@ -25,6 +27,11 @@ const Counter: React.FC = () => {
 
   const handleClickPause = () => {
     pause();
+  };
+
+  const handleClickRestart = () => {
+    setPercentage(100);
+    restart();
   };
 
   useEffect(() => {
@@ -47,6 +54,9 @@ const Counter: React.FC = () => {
         </Button>
         <Button onClick={handleClickPause}>
           <PauseIcon />
+        </Button>
+        <Button onClick={handleClickRestart}>
+          <RestartIcon />
         </Button>
       </Styles.Controls>
     </Styles.Wrapper>

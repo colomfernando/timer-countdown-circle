@@ -14,6 +14,7 @@ export interface ResponseUseCountDown extends PropsUseCountDown {
   remainingTime: number;
   start: () => void;
   pause: () => void;
+  restart: () => void;
 }
 type Interval = ReturnType<typeof setInterval>;
 
@@ -25,7 +26,9 @@ const useCountDown = ({
     calculateInitialTime(minutes, seconds)
   );
 
+  let timer: Interval;
   const [isActive, setIsActive] = useState(false);
+  const [restart, setRestart] = useState(false);
 
   const countDown = (interval: Interval) => {
     setRemainingTime((time) => {
@@ -39,13 +42,19 @@ const useCountDown = ({
   };
 
   useEffect(() => {
-    let timer: Interval;
     if (isActive) {
       timer = setInterval(() => countDown(timer), 1000);
     }
 
+    if (restart) {
+      clearInterval(timer);
+      setRestart(false);
+      setIsActive(false);
+      setRemainingTime(calculateInitialTime(minutes, seconds));
+    }
+
     return () => clearInterval(timer);
-  }, [isActive]);
+  }, [isActive, restart]);
 
   return {
     remainingTime,
@@ -53,6 +62,7 @@ const useCountDown = ({
     seconds: calculateRemainingSeconds(remainingTime),
     start: () => setIsActive(true),
     pause: () => setIsActive(false),
+    restart: () => setRestart(true),
   };
 };
 
